@@ -121,23 +121,56 @@ void Traverse(linkedList L)
 		p = p->next;
 	}
 }
+
+//反转单链表
+//返回头结点,L是没有头结点的.
+linkedList Reverse(linkedList L){
+	position p1, temp;
+	position header = malloc(sizeof(Node));
+	if(header == NULL){
+		printf("Out of space!");
+		exit(1);
+	}
+	header->next = L;
+	p1 = temp = L;
+	if(IsEmpty(L)){
+		printf("Empty list!\n");
+		exit(1);
+	}
+	else{
+		temp = L->next;
+		while(temp){
+			p1 = temp;
+			temp = temp->next;
+			p1->next = header->next;
+			header->next = p1;
+		}                                            
+	}
+	L->next = NULL;
+	return header;
+}
+
 int main()
 {
 	linkedList L;
 	L = CreateLinkedList();
+	printf("Before reverse:\n");
 	Traverse(L);
-	position p = Find(1, L);
-	if(!p) printf("didn't find any node.element = 1!\n");
-	else printf("find node.element = %d\n", p->element);
-	Delete(1, L);
-	p = Find(1, L);
-	if(!p) printf("didn't find any node.element = 1!\n");
-	else printf("find node.element = %d\n", p->element);
-	p = Find(3, L);
-	Insert(1, L, p);
-	Traverse(L);
+	position newlist = Reverse(L);
+	printf("After reverse: \n");
+	Traverse(newlist->next);
+	// position p = Find(1, L);
+	// if(!p) printf("didn't find any node.element = 1!\n");
+	// else printf("find node.element = %d\n", p->element);
+	// Delete(1, L);
+	// p = Find(1, L);
+	// if(!p) printf("didn't find any node.element = 1!\n");
+	// else printf("find node.element = %d\n", p->element);
+	// p = Find(3, L);
+	// Insert(1, L, p);
+	// Traverse(L);
 	DeleteList(L);
-	Traverse(L);
+	// Traverse(L);
 	printf("programe excuted succeed!\n");
 	return 0;
 }
