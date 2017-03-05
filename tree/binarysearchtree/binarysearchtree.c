@@ -82,7 +82,7 @@ SearchTree Delete(ElementType x, SearchTree t){
         tmpCell = t;
         if(t->right == NULL)
             t = t->left;
-        if(t->left == NULL)
+        else if(t->left == NULL)
             t = t->right;
         free(tmpCell);
     }
