@@ -119,7 +119,6 @@ AvlTree Insert(ElementType x, AvlTree t){
     }
     else if(t->element > x){
         t->left = Insert(x, t->left);
-        t->height++;
         if(Height(t->left) - Height(t->right) == 2)
             if(x < t->left->element)
                 t = SingleRotateWithLeft(t);
@@ -128,18 +127,56 @@ AvlTree Insert(ElementType x, AvlTree t){
     }
     else if(t->element < x){
         t->right = Insert(x, t->right);
-        t->height++;
         if(Height(t->right) - Height(t->left) == 2)
             if(x > t->right->element)
                 t = SingleRotateWithRight(t);
             else
-                t = DoubleRotateWithLeft(t);
+                t = DoubleRotateWithRight(t);
+    }
+    t->height = Max(Height(t->left), Height(t->right)) + 1;
+    return t;
+}
+
+AvlTree ResetHeightAndRotate(AvlTree t){
+    if(t != NULL){
+        t->height = Max(Height(t->left), Height(t->right)) + 1;
+        if(Height(t->left) - Height(t->right) == 2)
+            t = SingleRotateWithLeft(t);
+        if(Height(t->right) - Height(t->left) == 2)
+            t = SingleRotateWithRight(t);
     }
     return t;
 }
 
 AvlTree Delete(ElementType x, AvlTree t){
-
+    if(t == NULL){
+        printf("Not found element %d\n", x);
+        exit(1);
+    }
+    else if(x < t->element){
+        t->left = Delete(x, t->left);
+        t = ResetHeightAndRotate(t);
+    }
+    else if(x > t->element){
+        t->right = Delete(x, t->right);
+        t->height = Max(Height(t->left), Height(t->right)) + 1;
+        t = ResetHeightAndRotate(t);
+    }
+    else if(t->left && t->right){
+        AvlTree temp = FindMin(t->right);
+        t->element = temp->element;
+        t->right = Delete(t->element, t->right);
+        t = ResetHeightAndRotate(t);
+    }
+    else{
+        AvlTree temp = t;
+        if(t->left == NULL)
+            t = t->right;
+        else if(t->right == NULL)
+            t = t->left;
+        free(temp);
+    }
+    return t;
 }
 
 void Traverse(AvlTree t){
@@ -176,13 +213,16 @@ int main(){
     t = Insert(3, t);t = Insert(2, t);t = Insert(1, t);
     t = Insert(4, t);
     t = Insert(5, t);
-    t = Insert(6, t);
-    t = Insert(7, t);
-    t = Insert(14, t);
-    t = Insert(15, t);
-    t = Insert(16, t);
+    // t = Insert(6, t);
+    // t = Insert(7, t);
+    // t = Insert(15, t);
+    // t = Insert(16, t);
+    // t = Insert(14, t);
     Traverse(t);
     printf("\n");
+    t = Delete(5, t);
     CheckHeight(t);
+    Traverse(t);
+    printf("\n");
     return 0;
 }
