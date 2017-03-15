@@ -146,7 +146,7 @@ PriorityQueue BuildHeap(ElementType *elements, int n){
     int i;
     for(i = 1; i <= n; i++)
         h->array[i] = elements[i - 1];
-    h->size = 15;
+    h->size = n;
     for(i = n / 2; i > 0; i--)
         PercolateDown(h, i);
     return h;
