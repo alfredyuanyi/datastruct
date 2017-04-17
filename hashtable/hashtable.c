@@ -56,7 +56,7 @@ HashTable InitializeTable(int tableSize){
             printf("Out of space!\n");
             exit(1);
         }
-        h->theLists[i]->next == NULL;
+        h->theLists[i]->next = NULL;
     }
     return h;
 }
@@ -130,6 +130,7 @@ int main(){
     Insert(1, h);
     Insert(3, h);
     Insert(6, h);
+    Insert(2, h);
     Position p = Find(2, h);
     printf("%d\n", p->element);
     DestroyTable(h);

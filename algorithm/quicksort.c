@@ -7,6 +7,18 @@ typedef int ElementType;
 
 #define M (1000)
 
+void InsertSort(ElementType a[], int n){
+    int i, j;
+    ElementType temp;
+    for(i = 1; i < n; i++){
+        temp = a[i];
+        for(j = i; j > 0 && a[j - 1] > temp; j--){
+            a[j] = a[j - 1];
+        }
+        a[j] = temp;
+    }
+}
+
 void Swap(ElementType *a, ElementType *b){
     ElementType temp = *a;
     *a = *b;
@@ -28,11 +40,14 @@ ElementType GetPivot(ElementType a[], int left, int right){
 void Qsort(ElementType a[], int left, int right){
     int i, j;
     ElementType pivot;
-    if(right - left <= 1){
-        if(a[left] > a[right])
-            Swap(&a[left], &a[right]);
-            return;
+    if(right - left <= 10){
+        InsertSort(a + left, right - left + 1);
     }
+    // if(right - left <= 1){
+    //     if(a[left] > a[right])
+    //         Swap(&a[left], &a[right]);
+    //         return;
+    // }
     else{
         pivot = GetPivot(a, left, right);
         i = left;
@@ -50,6 +65,8 @@ void Qsort(ElementType a[], int left, int right){
         Qsort(a, i + 1, right);
     }
 }
+
+
 
 void QuickSort(ElementType a[], int n){
     Qsort(a, 0, n -1);
