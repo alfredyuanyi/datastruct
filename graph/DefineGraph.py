@@ -1,12 +1,12 @@
-#! /usr/bin/python3
+#! /usr/bin/python2
 # coding: utf8
 
 from Queue import Queue
 
-class Graph(dict):
+class UnWeightedDigraph(dict):
     """define graph"""
     def __init__(self, vertexs, edges):
-        super(Graph, self).__init__()
+        super(UnWeightedDigraph, self).__init__()
         if isinstance(vertexs, list) and isinstance(edges, list):
             self.vertexs = vertexs
             self.edges = edges
@@ -44,7 +44,7 @@ def TopSort(graph):
 
 
 if __name__ == '__main__':
-    graph = Graph([1, 2, 3, 4, 5, 6, 7],
+    graph = UnWeightedDigraph([1, 2, 3, 4, 5, 6, 7],
                   [(1, 2), (1, 3), (2, 4), (2, 5), (3, 6), (4, 3),
                    (4, 6), (4, 7), (5, 4), (5, 7), (7, 6)])
-    print TopSort(graph)
+    print(TopSort(graph))
